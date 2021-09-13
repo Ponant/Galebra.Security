@@ -487,10 +487,10 @@ Run and see the index page of the sample project.
 
 ## Additional Resources
 
-[CSP, W3C](https://w3c.github.io/webappsec-csp)
-[Scott Helme](https://scotthelme.co.uk/content-security-policy-an-introduction/)
-[Github's CSP journey](https://github.blog/2016-04-12-githubs-csp-journey/)
-[Github's post-CSP journey](https://github.blog/2017-01-19-githubs-post-csp-journey/)
+*[CSP, W3C](https://w3c.github.io/webappsec-csp)
+*[Scott Helme](https://scotthelme.co.uk/content-security-policy-an-introduction/)
+*[Github's CSP journey](https://github.blog/2016-04-12-githubs-csp-journey/)
+*[Github's post-CSP journey](https://github.blog/2017-01-19-githubs-post-csp-journey/)
 [content-security-policy.com](https://content-security-policy.com/)
 [Security Headers](https://securityheaders.com/)
 [Csp with Google](https://csp.withgoogle.com/docs/index.html)
