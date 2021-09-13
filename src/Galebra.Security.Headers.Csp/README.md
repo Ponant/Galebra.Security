@@ -5,6 +5,7 @@ This library allows you to configure Content Security Policy headers in ASP.NET 
 The purpose of this Readme is to focus on the pragmatic aspect of implementing CSP and outline why this library has been
 built as such and not otherwise.
 
+* [Get Started](#get-started)
 * [Design Philosophy and introduction](#design-philosophy-and-introduction)
 * [The CspPolicyGroup class](#the-csppolicygroup-class)
 * [The CspPolicy class and Nonce TagHelper](#the-csppolicy-class-and-nonce-taghelper)
@@ -13,15 +14,137 @@ built as such and not otherwise.
 * [Dependency Injection](#dependency-injection)
 * [Browser Link and Hot Reload](#browser-link-and-hot-reload)
 * [Debug and DisplayTagHelper](#debug-and-displaytaghelper)
-* [Get Started](#get-started)
 * [Additional Resources](#additional-resources)
 
+## Get Started
+
+You may check the MVC and Razor Pages sample and navigate through the pages. All terminology is explained in the next sections.
+
+The library does not use `EndPoint` routing, so you can invoke the `UseContentSecurityPolicy`
+middleware before or after `UseRouting`.
+
+````csharp
+app.UseStaticFiles();
+
+app.UseContentSecurityPolicy();
+
+app.UseRouting();
+````
+
+It can be placed before `UseStaticFiles` if you need CSP headers to be delivered with static content such as `SVG`.
+
+
+You configure CSP via *appsettings.json* or via an `Action` in *Program.cs*.
+
+When using *appsetting.json*:
+
+````csharp
+using Galebra.Security.Headers.Csp;
+
+builder.Services.AddContentSecurityPolicy(builder.Configuration.GetSection("Csp"));
+````
+
+In the following, three policy groups are registered:
+
+````json
+  "Csp": {
+    "IsDisabled": false,//default: Will apply the default policy everywhere until overriden by attributes or filters
+    "PolicyGroups": {
+      "PolicyGroup1": {
+        "Csp": {
+          "Fixed": "default-src 'none' 'sha256-RFWPLDbv2BY+rCkDzsE+0fr8ylGr2R2faWMhq4lfEQc=';script-src 'self'"
+        },
+        "IsDefault": false,
+        "NumberOfNonceBytes": 16//default
+      },
+      "PolicyGroup2": {
+        "Csp": {
+          "Fixed": "default-src 'self';base-uri 'self';form-action 'self';object-src;frame-ancestors;connect-src ws://localhost:65412",
+          "Nonceable": [
+            "style-src 'self'"
+          ]
+        },
+        "CspReportOnly": {
+          "Fixed": "default-src;form-action 'self';base-uri;object-src;frame-ancestors;sandbox",
+          "Nonceable": [
+            "style-src",
+            "script-src"
+          ]
+        },
+        "IsDefault": true,//default
+        "NumberOfNonceBytes": 8
+      },
+      "PolicyGroup3": {
+        "Csp": {
+          "Nonceable": [
+            "style-src"
+          ]
+        },
+        "IsDefault": false,
+        "NumberOfNonceBytes": 3
+      }
+    }
+  },
+````
+
+The first policy group does not require nonces and enforces CSP.
+The second policy group configures the two headers, CSP and CSP-Report-Only, and requires nonces for each of these headers.
+
+This policy is the default policy. Beware that, by default, `IsDefault` is set to `true` and the library will throw during service
+registration if the number of default policies is not one.
+
+The `IsDisabled` property in *Line 1* is set to `false` (default),
+which means that the default policy named *PolicyGroup2* will be applied globally unless overridden by attributes or filters.
+The third policy uses only nonces, for styles. The default value for nonce generation is 16 bytes.
+We used `connect-src ws://localhost:65412` in this example to allow `/_framework/aspnetcore-browser-refresh.js` to work properly.
+Also, we disabled CSS Hot Reload in Visual Studio, see https://github.com/dotnet/aspnetcore/issues/36085, to avoid
+a weak CSP configuration just for development. It is not clear how this port is generated, apparently randomly.
+These policies will also disable Visual Studio tracking features when they occur.
+
+Alternatively, you can configure everything in code:
+
+````csharp
+builder.Services.AddContentSecurityPolicy(c =>
+{
+    c.IsDisabled = false;
+    c.Add("Policy1", g =>
+    {
+        g.Csp.Fixed = "default-src 'self';connect-src ws://localhost:65412";
+        g.Csp.Nonceable.Add("style-src 'self'");
+        g.CspReportOnly.Nonceable.Add("script-src");
+        g.IsDefault = true;
+        g.NumberOfNonceBytes = 32;
+    });
+    c.Add("Policy2", g =>
+    {
+        g.Csp.Fixed = "default-src 'self';connect-src ws://localhost:65412";
+        g.CspReportOnly.Fixed="default-src";
+        g.IsDefault = false;
+    });
+});
+````
+
+Add nonces to the body by importing the TagHelpers
+
+````cshtml
+@addTagHelper *, Galebra.Security.Headers.Csp
+````
+
+And add to styles, scripts or link tags the helper `nonce-add=true`. For example, for `PolicyGroup3`, that restricts you to use only nonced styles,
+you would allow loading bootstrap like so:
+
+````cshtml
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" nonce-add=true/>
+````
+
+
+![Display CSP policy groups](_static/displaypolicygroups.png)
 
 ## Design Philosophy and introduction
 
 The following design principles, detailed below, have been followed:
 
-* CSP configuration is well suited in appsettings.json because you need to store long strings
+* CSP configuration is well suited in *appsettings.json* because you need to store long strings
 * Configuration via `Action` should also be possible in *Program.cs*
 * Support multiple policies to use in different parts of the website
 * Enable and Disable attributes in pages or actions or controllers
@@ -37,7 +160,7 @@ or have no policy applied globally and set them on specific parts only
 * Each policy is, at the end, a long string.
 This string can be either static (fixed) or generated newly on each request if nonces are required.
 
-Consider the following opinion. CSP is a set of two headers, whose names can be:
+Consider the following arguments. CSP is a set of two headers, whose names can be:
 
 * Content-Security-Policy
 * Content-Security-Policy-Report-Only
@@ -367,130 +490,6 @@ will be displayed instead.
 ````cshtml
 <display-csp-group/>
 ````
-
-## Get Started
-
-You may check the MVC and Razor Pages sample and navigate through the pages.
-
-The library does not use `EndPoint` routing, so you can invoke the `UseContentSecurityPolicy`
-middleware before or after `UseRouting`.
-
-````csharp
-app.UseStaticFiles();
-
-app.UseContentSecurityPolicy();
-
-app.UseRouting();
-````
-
-It can be placed before `UseStaticFiles` if you need CSP headers to be delivered with static content such as `SVG`.
-
-
-You configure CSP via *appsettings.json* or via an `Action` in *Program.cs*.
-
-When using *appsetting.json*:
-
-````csharp
-using Galebra.Security.Headers.Csp;
-
-builder.Services.AddContentSecurityPolicy(builder.Configuration.GetSection("Csp"));
-````
-
-In the following, three policy groups are registered:
-
-````json
-  "Csp": {
-    "IsDisabled": false,//default: Will apply the default policy everywhere until overriden by attributes or filters
-    "PolicyGroups": {
-      "PolicyGroup1": {
-        "Csp": {
-          "Fixed": "default-src 'none' 'sha256-RFWPLDbv2BY+rCkDzsE+0fr8ylGr2R2faWMhq4lfEQc=';script-src 'self'"
-        },
-        "IsDefault": false,
-        "NumberOfNonceBytes": 16//default
-      },
-      "PolicyGroup2": {
-        "Csp": {
-          "Fixed": "default-src 'self';base-uri 'self';form-action 'self';object-src;frame-ancestors;connect-src ws://localhost:65412",
-          "Nonceable": [
-            "style-src 'self'"
-          ]
-        },
-        "CspReportOnly": {
-          "Fixed": "default-src;form-action 'self';base-uri;object-src;frame-ancestors;sandbox",
-          "Nonceable": [
-            "style-src",
-            "script-src"
-          ]
-        },
-        "IsDefault": true,//default
-        "NumberOfNonceBytes": 8
-      },
-      "PolicyGroup3": {
-        "Csp": {
-          "Nonceable": [
-            "style-src"
-          ]
-        },
-        "IsDefault": false,
-        "NumberOfNonceBytes": 3
-      }
-    }
-  },
-````
-
-The first policy group does not require nonces and enforces CSP.
-The second policy group configures the two headers, CSP and CSP-Report-Only, and requires nonces for each of these headers.
-
-This policy is the default policy. Beware that, by default, `IsDefault` is set to true and the library will throw during service
-registration if the number of default policies is not one.
-
-The `IsDisabled` property in *Line 1* is set to false (default),
-which means that the default policy named *PolicyGroup2* will be applied globally unless overridden by attributes or filters.
-The third policy uses only nonces, for styles. The default value for nonce generation is 16 bytes.
-We used `connect-src ws://localhost:65412` in this example to allow `/_framework/aspnetcore-browser-refresh.js` to work properly.
-Also, we disabled CSS Hot Reload in Visual Studio, see https://github.com/dotnet/aspnetcore/issues/36085, to avoid
-a weak CSP configuration just for development. It is not clear how this port is generated, apparently randomly.
-These policies will also disable Visual Studio tracking features when they occur.
-
-Alternatively, you can configure everything in code:
-
-````csharp
-builder.Services.AddContentSecurityPolicy(c =>
-{
-    c.IsDisabled = false;
-    c.Add("Policy1", g =>
-    {
-        g.Csp.Fixed = "default-src 'self';connect-src ws://localhost:65412";
-        g.Csp.Nonceable.Add("style-src 'self'");
-        g.CspReportOnly.Nonceable.Add("script-src");
-        g.IsDefault = true;
-        g.NumberOfNonceBytes = 32;
-    });
-    c.Add("Policy2", g =>
-    {
-        g.Csp.Fixed = "default-src 'self';connect-src ws://localhost:65412";
-        g.CspReportOnly.Fixed="default-src";
-        g.IsDefault = false;
-    });
-});
-````
-
-Add nonces to the body by importing the TagHelpers
-
-````cshtml
-@addTagHelper *, Galebra.Security.Headers.Csp
-````
-
-And add to styles, scripts or link tags the helper `nonce-add=true`. For example, for `PolicyGroup3`, that restricts you to use only nonced styles,
-you would allow loading bootstrap like so:
-
-````cshtml
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" nonce-add=true/>
-````
-
-
-![Display CSP policy groups](_static/displaypolicygroups.png)
 
 ## Additional Resources
 
