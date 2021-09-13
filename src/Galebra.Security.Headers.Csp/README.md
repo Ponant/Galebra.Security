@@ -18,7 +18,7 @@ built as such and not otherwise.
 
 ## Get Started
 
-You may check the MVC and Razor Pages sample and navigate through the pages. All terminology is explained in the next sections.
+All terminology is explained in the next sections. You may check the MVC and Razor Pages sample and navigate through the pages.
 
 The library does not use `EndPoint` routing, so you can invoke the `UseContentSecurityPolicy`
 middleware before or after `UseRouting`.
@@ -31,7 +31,7 @@ app.UseContentSecurityPolicy();
 app.UseRouting();
 ````
 
-It can be placed before `UseStaticFiles` if you need CSP headers to be delivered with static content such as `SVG`.
+It can be placed before `UseStaticFiles` if you need CSP headers to be delivered with peculiar content such as `SVG`.
 
 
 You configure CSP via *appsettings.json* or via an `Action` in *Program.cs*.
