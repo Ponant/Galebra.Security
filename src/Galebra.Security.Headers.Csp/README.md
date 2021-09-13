@@ -253,7 +253,7 @@ would be set as a `CspPolicy.Fixed` string because a nonce is not required. In *
 A `sha256-myshacode`, if needed, would be included in the `Fixed` string.
 
 If, now, you want to have this policy, but in addition produce a nonce for styles, then you would need to split your string
-and populate the `CspPolicy.Nonceable` list. In appsettings.json, the split would be like this:
+and populate the `CspPolicy.Nonceable` list. In *appsettings.json*, the split would be like this:
 
 ````json
 "Fixed": "default-src",
