@@ -228,7 +228,7 @@ you would build only the property `CspReportOnly`.
 The usual route to library design is to use the so-called fluent-api. This gives elegant code,
 but with CSP this is unnecessary complication and makes your *Program.cs* (or *Startup.cs*) rather long.
 In addition, CSP configuration ultimately boils down to outputting one or two strings in the headers,
-plus the possibility of nonces in those headers and pages.
+plus the possibility of nonces in those headers and body.
 A developer will ultimately look at the CSP output in the browser's tools
 to see if the formatting is as expected and nonces properly generated and positioned.
 There is already a lot of resources and services in the pipeline, so we decided to keep it simple and focus on performance.
