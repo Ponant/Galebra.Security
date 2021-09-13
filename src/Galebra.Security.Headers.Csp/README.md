@@ -73,7 +73,7 @@ Content-Security-Policy: Policy1
 Content-Security-Policy: Policy2
 ````
 
-#### The CspPolicyGroup class
+## The CspPolicyGroup class
 
 However, you can have both a CSP and a CSP-Report-Only policy, and usually **this is recommended**.
 Some libraries do not support this configuration. This library does. For example **you can do** something like this:
@@ -94,7 +94,7 @@ It is this group class that you use to configure your policies. This class conta
 which is a `CspPolicy` class. You can leave one of these properties empty; for example if you want to have only browser reports,
 you would build only the property `CspReportOnly`.
 
-#### The CspPolicy class and Nonce TagHelper
+## The CspPolicy class and Nonce TagHelper
 
 The usual route to library design is to use the so-called fluent-api. This gives elegant code,
 but with CSP this is unnecessary complication and makes your *Program.cs* (or *Startup.cs*) rather long.
@@ -166,7 +166,7 @@ e.g. in appsettings.json, and the nonce will apply to the entire group.
 "NumberOfNonceBytes": 8
 ````
 
-#### Multiple Policies, Attributes, Filters and default CspPolicyGroup
+## Multiple Policies, Attributes, Filters and default CspPolicyGroup
 
 When you implement CSP on a website, often you need several `CspPolicyGroup` objects depending on the page where the user lands.
 For example, you would have a global CSP policy on all pages, but when processing a payment on a page or Razor Pages folder,
@@ -316,7 +316,7 @@ public class BooksController : Controller
 }
 ````
 
-#### IsDisabled global boolean
+## IsDisabled global boolean
 
 By default, the library applies the default `CspPolicyGroup` to all delivered pages until overwritten by attributes or filters.
 You can override this global behaviour in *Program.cs* or in *appsettings.json* where you can set at the top level
@@ -346,13 +346,13 @@ Similarly, you can inject the `ICspNonce`, configured as a Scoped service, with 
 `@using Galebra.Security.Headers.Csp.Infrastructure`.
 Run and see the index page of the sample project.
 
-#### Browser Link and Hot Reload
+## Browser Link and Hot Reload
 
 Check your browser's dev tools and check which ports are used for connections,
 see https://github.com/dotnet/aspnetcore/issues/36085.
 Use this to configure your CSP such that you allow Visual Studio to use Hot reloads and browser link. See example below.
 
-#### Debug and DisplayTagHelper
+## Debug and DisplayTagHelper
 
 The library will throw at build time when you misconfigure your policies but does only some basic checks and string parsing.
 This check is limited on purpose because your eyes are better at parsing such kind of strings. In addition,
@@ -370,7 +370,7 @@ will be displayed instead.
 
 ## Get Started
 
-NB: Check the sample and navigate through pages.
+You may check the MVC and Razor Pages sample and navigate through the pages.
 
 The library does not use `EndPoint` routing, so you can invoke the `UseContentSecurityPolicy`
 middleware before or after `UseRouting`.
