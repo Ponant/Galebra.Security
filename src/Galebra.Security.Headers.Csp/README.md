@@ -289,7 +289,7 @@ In `_ViewImports.cshtml`, you will need to add
 When you use a `nonce`, common libraries are confined to the `script` and `style` tags, but `link` tags are also possible.
 Nonce generation defaults to the spec-recommended 16 bytes, which gives 256^16=2^128 possibilities,
 or a 22 long web-encoded base64 string. You can override this with the property `CspPolicyGroup.NumberOfNonceBytes`,
-e.g. in appsettings.json, and the nonce will apply to the entire group.
+e.g. in *appsettings.json*, and the nonce will apply to the entire group.
 
 ````json
 "NumberOfNonceBytes": 8
