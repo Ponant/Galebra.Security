@@ -1,0 +1,72 @@
+﻿@page
+@using Galebra.Security.Headers.Csp
+@using Galebra.Security.Headers.Csp.Infrastructure
+@model IndexModel
+
+@inject ICspOptions CspOptions
+@inject ICspNonce CspNonce
+
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <p>Check the response headers</p>
+    <p>Move on to the next pages to see the effect of CSP</p>
+</div>
+
+<h4>Full configuration</h4>
+<br />
+
+<div><strong>IsDisabled:</strong> @CspOptions.IsDisabled</div>
+
+@foreach (var group in @CspOptions.PolicyGroups)
+{
+    <h4>@group.Key</h4>
+    @if (!String.IsNullOrWhiteSpace(group.Value.Csp.Fixed) || group.Value.Csp.Nonceable.Any())
+    {
+        <strong>Csp</strong>
+    }
+    @if (!String.IsNullOrWhiteSpace(group.Value.Csp.Fixed))
+    {
+        <div>Fixed: @group.Value.Csp.Fixed</div>
+    }
+    @if (group.Value.Csp.Nonceable.Any())
+    {
+        <div>Nonceable:</div>
+        @foreach (var nonceable in @group.Value.Csp.Nonceable)
+        {
+            <div>@nonceable</div>
+        }
+    }
+
+    @if (!String.IsNullOrWhiteSpace(group.Value.CspReportOnly.Fixed) || group.Value.CspReportOnly.Nonceable.Any())
+    {
+        <strong>CspReportOnly</strong>
+    }
+    @if (!String.IsNullOrWhiteSpace(group.Value.CspReportOnly.Fixed))
+    {
+        <div>Fixed: @group.Value.CspReportOnly.Fixed</div>
+    }
+    @if (group.Value.CspReportOnly.Nonceable.Any())
+    {
+        <div>Nonceable:</div>
+        @foreach (var nonceable in @group.Value.CspReportOnly.Nonceable)
+        {
+            <div>@nonceable</div>
+        }
+    }
+    <div>IsDefault: @group.Value.IsDefault</div>
+    <div>NumberOfNonceBytes: @group.Value.NumberOfNonceBytes</div>
+    <br />
+}
+@if (CspNonce.Nonces.Any())
+{
+    <h4>Nonces (Refresh to see change)</h4>
+    @foreach (var item in CspNonce.Nonces)
+    {
+        <div>
+            @item.Key : @item.Value.Nonce
+        </div>
+    }
+}
