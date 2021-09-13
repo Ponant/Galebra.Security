@@ -22,13 +22,13 @@ built as such and not otherwise.
 The following design principles, detailed below, have been followed:
 
 * CSP configuration is well suited in appsettings.json because you need to store long strings
-* Configuration via `Action` should also possible in *Program.cs*
+* Configuration via `Action` should also be possible in *Program.cs*
 * Support multiple policies to use in different parts of the website
 * Enable and Disable attributes in pages or actions or controllers
 * Enable and Disable Filters for folders in razor pages
 * Developper provides a default, global policy, and can override
-* Possibility to apply the default policy everywhere, and override in parts of the website,
-or to have no policy applied globally and set them on specific parts
+* Possibility to apply the default policy everywhere, and override for parts of the website,
+or have no policy applied globally and set them on specific parts only
 * Support CSP and a CSP-Report-Only headers simultaneously, each with a different set of policy directives
 * Optimize nonce generation for `script`, `style`, and `link` tags
 * Use the latest recommendations for [random number generations](https://github.com/dotnet/runtime/issues/40579)
@@ -45,7 +45,7 @@ Consider the following opinion. CSP is a set of two headers, whose names can be:
 Each policy in those headers is defined by an ordered set of directives.
 Each directive is a name/value pair; name is non-empty, but value may be empty.
 For example, `script-src` is a directive's *name* and the value can be, for instance, `'self'` or a url or a set of these.
-Another directive can be `default-src 'none'`, where 'default-src' is another directive name.
+Another directive can be `default-src 'none'`, where `default-src` is another directive name.
 The directives forming a policy are separated by semicolons.
 For this example, the Content Security Policy would be the header:
 
@@ -66,7 +66,7 @@ outputs only one CSP header for a given header name.
 In practice, we assign the value for the header key (name) rather than adding a new item in the dictionary.
 This also has the consequence of efficient write.
 
-So **you cannot have** the following with this library:
+So, with this library, **you cannot have** the following:
 
 ````
 Content-Security-Policy: Policy1
@@ -84,7 +84,7 @@ Content-Security-Policy-Report-Only: default-src;style-src 'self'
 ````
 
 In this scenario, the website would run without issues if, loosely speaking, all styles and scripts are loaded from the server
-('self'), but the browser will report to you what would break if you disable scripts ('none') and other fetch directives,
+(`'self'`), but the browser will report to you what would break if you disable scripts ('none') and other fetch directives,
 except for styles which use `'self'`.
 Thus, this allows you to enforce a policy and at the same time fine-tune another one which ultimately will become
 the enforcing policy when you are ready.
@@ -115,7 +115,7 @@ For example, the policy:
 default-src;style-src 'self'
 ````
 
-would be set as a `CspPolicy.Fixed` string because a nonce is not required. In appsettings.json, this would be:
+would be set as a `CspPolicy.Fixed` string because a nonce is not required. In *appsettings.json*, this would be:
 
 ````json
 "Fixed": "default-src;style-src 'self'",
@@ -133,7 +133,7 @@ and populate the `CspPolicy.Nonceable` list. In appsettings.json, the split woul
 ]
 ````
 
-The `style-src` is here short, but it can be longer and include for example urls from a Bootstrap cdn. The most important is to
+The `style-src` is here short, but generally is longer to include for example urls from a Bootstrap CDN. The most important is to
 identify the directive's name, here `style-src`.
 
 To use the nonce on the style in this example, you would invoke the Tag Helper `nonce-add`, e.g.
@@ -170,7 +170,7 @@ e.g. in appsettings.json, and the nonce will apply to the entire group.
 
 When you implement CSP on a website, often you need several `CspPolicyGroup` objects depending on the page where the user lands.
 For example, you would have a global CSP policy on all pages, but when processing a payment on a page or Razor Pages folder,
-or a Controller, you will want another CSP policy (for example to accept connections to the payment API such as PayPal or Stripe).
+or a Controller, you will want another CSP policy (for example to accept connections to a payment API such as PayPal or Stripe).
 This library allows you to configure many policies and invoke them when needed, through attributes and filters.
 
 When you use the library, unless you override the default described below, the default `CspPolicyGroup`
@@ -324,7 +324,7 @@ You can override this global behaviour in *Program.cs* or in *appsettings.json* 
 
 ## Dependency Injection
 
-Even though you should not need it, you can inject the `ICspOptions` that have been configured as a Singleton, e.g. on a Page:
+Even though you should not need it in production, you can inject the `ICspOptions` that have been configured as a Singleton, e.g. on a Page:
 
 ````csharp
 private readonly ICspOptions _cspOptions;
@@ -344,7 +344,7 @@ or in a Page View
 
 Similarly, you can inject the `ICspNonce`, configured as a Scoped service, with the using
 `@using Galebra.Security.Headers.Csp.Infrastructure`.
-Run and see the index page of the sample project.
+Run and check out the index page of the sample project.
 
 ## Browser Link and Hot Reload
 
@@ -361,7 +361,7 @@ and we do not expect a developer working on CSP to go to production without
 paying care to output headers.
 
 For debugging, you can use the toy `DisplayCspGroupTagHelper` to display the name of the `CspPolicyGroup`
-that has been used in the response. If the disabled attribute or filter are applied, then a disabled or disabled global strings
+that has been used in the response. If the disabled attribute or filter is applied, then a disabled or disabled global strings
 will be displayed instead.
 
 ````cshtml
@@ -386,9 +386,9 @@ app.UseRouting();
 It can be placed before `UseStaticFiles` if you need CSP headers to be delivered with static content such as `SVG`.
 
 
-You configure CSP via `appsettings.json` or via an `Action` in *Program.cs*.
+You configure CSP via *appsettings.json* or via an `Action` in *Program.cs*.
 
-When using `appsetting.json`:
+When using *appsetting.json*:
 
 ````csharp
 using Galebra.Security.Headers.Csp;
@@ -440,18 +440,18 @@ In the following, three policy groups are registered:
 ````
 
 The first policy group does not require nonces and enforces CSP.
-The second policy group configures the two headers CSP and CSP-Report-Only headers and requires nonces for each of these headers.
+The second policy group configures the two headers, CSP and CSP-Report-Only, and requires nonces for each of these headers.
 
 This policy is the default policy. Beware that, by default, `IsDefault` is set to true and the library will throw during service
-build-up if there is not exactly one default.
+registration if the number of default policies is not one.
 
 The `IsDisabled` property in *Line 1* is set to false (default),
 which means that the default policy named *PolicyGroup2* will be applied globally unless overridden by attributes or filters.
 The third policy uses only nonces, for styles. The default value for nonce generation is 16 bytes.
-We used `connect-src ws://localhost:56353` in this example to allow `/_framework/aspnetcore-browser-refresh.js` to work properly.
+We used `connect-src ws://localhost:65412` in this example to allow `/_framework/aspnetcore-browser-refresh.js` to work properly.
 Also, we disabled CSS Hot Reload in Visual Studio, see https://github.com/dotnet/aspnetcore/issues/36085, to avoid
 a weak CSP configuration just for development. It is not clear how this port is generated, apparently randomly.
-The browser tools will inform you when this happens! These policies will also disable Visual Studio tracking features when they occur.
+These policies will also disable Visual Studio tracking features when they occur.
 
 Alternatively, you can configure everything in code:
 
@@ -482,19 +482,20 @@ Add nonces to the body by importing the TagHelpers
 @addTagHelper *, Galebra.Security.Headers.Csp
 ````
 
-And add to styles, scripts or link tags the helper `nonce-add=true`. For example, for `PolicyGroup3` that requires nonces for styles,
+And add to styles, scripts or link tags the helper `nonce-add=true`. For example, for `PolicyGroup3`, that restricts you to use only nonced styles,
 you would allow loading bootstrap like so:
 
 ````cshtml
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" nonce-add=true/>
 ````
 
+
 ![Display CSP policy groups](_static/displaypolicygroups.png)
 
 ## Additional Resources
 
 * [CSP, W3C](https://w3c.github.io/webappsec-csp)
-* [Scott Helme](https://scotthelme.co.uk/content-security-policy-an-introduction/)
+* [Scott Helme Content Security Policy - An Introduction](https://scotthelme.co.uk/content-security-policy-an-introduction/)
 * [Github's CSP journey](https://github.blog/2016-04-12-githubs-csp-journey/)
 * [Github's post-CSP journey](https://github.blog/2017-01-19-githubs-post-csp-journey/)
 * [content-security-policy.com](https://content-security-policy.com/)
