@@ -5,16 +5,16 @@ This library allows you to configure Content Security Policy headers in ASP.NET 
 The purpose of this Readme is to focus on the pragmatic aspect of implementing CSP and outline why this library has been
 built as such and not otherwise.
 
-[Design Philosophy and Instructions](#design-philosophy-and-instructions)
-[The CspPolicyGroup class](#the-csppolicygroup-class)
-[The CspPolicy class and Nonce TagHelper](#the-csppolicy-class-and-nonce-taghelper)
-[Multiple Policies, Attributes, Filters and default CspPolicyGroup](#multiple-policies,-attributes,-filters-and-default-csppolicygroup)
-[IsDisabled global boolean](#isdisabled-global-boolean)
-[Dependency Injection](#dependency-injection)
-[Browser Link and Hot Reload](#browser-link-and-hot-reload)
-[Debug and DisplayTagHelper](#debug-and-displaytaghelper)
-[Get Started](#get-started)
-[Additional Resources](#additional-resources)
+* [Design Philosophy and Instructions](#design-philosophy-and-instructions)
+* [The CspPolicyGroup class](#the-csppolicygroup-class)
+* [The CspPolicy class and Nonce TagHelper](#the-csppolicy-class-and-nonce-taghelper)
+* [Multiple Policies, Attributes, Filters and default CspPolicyGroup](#multiple-policies,-attributes,-filters-and-default-csppolicygroup)
+* [IsDisabled global boolean](#isdisabled-global-boolean)
+* [Dependency Injection](#dependency-injection)
+* [Browser Link and Hot Reload](#browser-link-and-hot-reload)
+* [Debug and DisplayTagHelper](#debug-and-displaytaghelper)
+* [Get Started](#get-started)
+* [Additional Resources](#additional-resources)
 
 
 ## Design Philosophy and Instructions
