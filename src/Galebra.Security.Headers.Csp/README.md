@@ -5,7 +5,7 @@ This library allows you to configure Content Security Policy headers in ASP.NET 
 The purpose of this Readme is to focus on the pragmatic aspect of implementing CSP and outline why this library has been
 built as such and not otherwise.
 
-* [Design Philosophy and premisse](#design-philosophy-and-introduction)
+* [Design Philosophy and introduction](#design-philosophy-and-introduction)
 * [The CspPolicyGroup class](#the-csppolicygroup-class)
 * [The CspPolicy class and Nonce TagHelper](#the-csppolicy-class-and-nonce-taghelper)
 * [Multiple Policies, Attributes, Filters and default CspPolicyGroup](#multiple-policies-attributes-filters-and-default-csppolicygroup)
