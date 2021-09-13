@@ -8,7 +8,7 @@ built as such and not otherwise.
 * [Design Philosophy and Instructions](#design-philosophy-and-instructions)
 * [The CspPolicyGroup class](#the-csppolicygroup-class)
 * [The CspPolicy class and Nonce TagHelper](#the-csppolicy-class-and-nonce-taghelper)
-* [Multiple Policies, Attributes, Filters and default CspPolicyGroup](#multiple-policies,-attributes,-filters-and-default-csppolicygroup)
+* [Multiple Policies, Attributes, Filters and default CspPolicyGroup](#multiple-policies-attributes-filters-and-default-csppolicygroup)
 * [IsDisabled global boolean](#isdisabled-global-boolean)
 * [Dependency Injection](#dependency-injection)
 * [Browser Link and Hot Reload](#browser-link-and-hot-reload)
