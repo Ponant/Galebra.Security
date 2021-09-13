@@ -11,6 +11,20 @@ We recommend you first read the
 
 ## Design Philosophy and Instructions
 
+#### The CspPolicyGroup class
+#### The CspPolicy class and Nonce TagHelper
+#### Multiple Policies, Attributes, Filters and default CspPolicyGroup
+#### IsDisabled global boolean
+#### Dependency Injection
+#### Browser Link and Hot Reload
+#### Debug and DisplayTagHelper
+
+## Get Started Configuration
+## Additional Resources
+
+
+## Design Philosophy and Instructions
+
 The following design principles, detailed below, have been followed:
 
 * CSP configuration is well suited in appsettings.json because you need to store long strings
@@ -308,27 +322,49 @@ public class BooksController : Controller
 }
 ````
 
-### IsDisabled global boolean
+#### IsDisabled global boolean
 
 By default, the library applies the default `CspPolicyGroup` to all delivered pages until overwritten by attributes or filters.
 You can override this global behaviour in *Program.cs* or in *appsettings.json* where you can set at the top level
 `"IsDisabled": true,`. This will result in CSP not being applied globally, at all, until you invoke it via attributes or filters.
 
+## Dependency Injection
+
+Even though you should not need it, you can inject the `ICspOptions` that have been configured as a Singleton, e.g. on a Page:
+
+````csharp
+private readonly ICspOptions _cspOptions;
+
+public IndexModel(ICspOptions cspOptions)
+{
+    _cspOptions = cspOptions;
+}
+````
+
+or in a Page View
+
+````cshtml
+@using Galebra.Security.Headers.Csp
+@inject ICspOptions CspOptions
+````
+
+Similarly, you can inject the `ICspNonce`, configured as a Scoped service, with the using
+`@using Galebra.Security.Headers.Csp.Infrastructure`.
+Run and see the index page of the sample project.
+
 #### Browser Link and Hot Reload
 
-Check your browser dev tools and check which ports are used for connections,
-see https://github.com/dotnet/aspnetcore/issues/36085,
-and use this to configure your CSP such that you allow Visual Studio to use Hot reloads and browser link. See example below.
+Check your browser's dev tools and check which ports are used for connections,
+see https://github.com/dotnet/aspnetcore/issues/36085.
+Use this to configure your CSP such that you allow Visual Studio to use Hot reloads and browser link. See example below.
 
-#### Debug
+#### Debug and DisplayTagHelper
 
 The library will throw at build time when you misconfigure your policies but does only some basic checks and string parsing.
 This check is limited on purpose because your eyes are better at parsing such kind of strings. In addition,
 we found that the browser tools are good at complaining about misconfigurations in your directives
-and because we do not expect a developer working on CSP to go to production without
+and we do not expect a developer working on CSP to go to production without
 paying care to output headers.
-
-#### DisplayTagHelper
 
 For debugging, you can use the toy `DisplayCspGroupTagHelper` to display the name of the `CspPolicyGroup`
 that has been used in the response. If the disabled attribute or filter are applied, then a disabled or disabled global strings
@@ -417,7 +453,7 @@ build-up if there is not exactly one default.
 
 The `IsDisabled` property in *Line 1* is set to false (default),
 which means that the default policy named *PolicyGroup2* will be applied globally unless overridden by attributes or filters.
-The third policy uses only nonces, for styles. The default value for nonce generation s 16 bytes.
+The third policy uses only nonces, for styles. The default value for nonce generation is 16 bytes.
 We used `connect-src ws://localhost:56353` in this example to allow `/_framework/aspnetcore-browser-refresh.js` to work properly.
 Also, we disabled CSS Hot Reload in Visual Studio, see https://github.com/dotnet/aspnetcore/issues/36085, to avoid
 a weak CSP configuration just for development. It is not clear how this port is generated, apparently randomly.
@@ -461,54 +497,30 @@ you would allow loading bootstrap like so:
 
 ![Display CSP policy groups](_static/displaypolicygroups.png)
 
-## Dependency Injection
-
-Even though you should not need it, you can inject the `ICspOptions` that have been configured as a Singleton, e.g. on a Page:
-
-````csharp
-private readonly ICspOptions _cspOptions;
-
-public IndexModel(ICspOptions cspOptions)
-{
-    _cspOptions = cspOptions;
-}
-````
-
-or in a Page View
-
-````cshtml
-@using Galebra.Security.Headers.Csp
-@inject ICspOptions CspOptions
-````
-
-Similarly, you can inject the `ICspNonce`, configured as a Scoped service, with the using
-`@using Galebra.Security.Headers.Csp.Infrastructure`.
-Run and see the index page of the sample project.
-
 ## Additional Resources
 
 * [CSP, W3C](https://w3c.github.io/webappsec-csp)
 * [Scott Helme](https://scotthelme.co.uk/content-security-policy-an-introduction/)
 * [Github's CSP journey](https://github.blog/2016-04-12-githubs-csp-journey/)
 * [Github's post-CSP journey](https://github.blog/2017-01-19-githubs-post-csp-journey/)
-[content-security-policy.com](https://content-security-policy.com/)
-[Security Headers](https://securityheaders.com/)
-[Csp with Google](https://csp.withgoogle.com/docs/index.html)
-[Dangers of white listing in CSP (Google)](https://storage.googleapis.com/pub-tools-public-publication-data/pdf/45542.pdf)
-[Csp Hash Calculator](https://strict-csp-codelab.glitch.me/csp_sha256_util.html)
-[Base64 encode calculator](http://string-functions.com/base64encode.aspx)
-[Content Security Policy (Google)](https://developers.google.com/web/fundamentals/security/csp/)
-[CSP evaluator (Google)](https://csp-evaluator.withgoogle.com/)
-[Csplite](https://csplite.com/csp/test187/)
-[cspisawesome.com](https://www.cspisawesome.com/)
-[Report Uri](https://report-uri.com/home/generate)
-[CspScanner](https://cspscanner.com/)
-[Postcards from the post-XSS world](https://lcamtuf.coredump.cx/postxss/)
-[Content-Security-Policy-CSP-Bypass-Techniques by bhaveshk90](https://github.com/bhaveshk90/Content-Security-Policy-CSP-Bypass-Techniques)
-[Video: A successful mess between hardening and mitigation - Spagnuolo/Weichselbaum](https://www.youtube.com/watch?v=_L06HetskC4&t=902s)
-[Video: Let's break stuff Matt Brunt](https://www.youtube.com/watch?v=mr230uotw-Y)
-[Video Troy Hunt: Understanding CSP](https://www.troyhunt.com/understanding-csp-the-video-tutorial-edition/)
+* [content-security-policy.com](https://content-security-policy.com/)
+* [Security Headers](https://securityheaders.com/)
+* [Csp with Google](https://csp.withgoogle.com/docs/index.html)
+* [Dangers of white listing in CSP (Google)](https://storage.googleapis.com/pub-tools-public-publication-data/pdf/45542.pdf)
+* [Csp Hash Calculator](https://strict-csp-codelab.glitch.me/csp_sha256_util.html)
+* [Base64 encode calculator](http://string-functions.com/base64encode.aspx)
+* [Content Security Policy (Google)](https://developers.google.com/web/fundamentals/security/csp/)
+* [CSP evaluator (Google)](https://csp-evaluator.withgoogle.com/)
+* [Csplite](https://csplite.com/csp/test187/)
+* [cspisawesome.com](https://www.cspisawesome.com/)
+* [Report Uri](https://report-uri.com/home/generate)
+* [CspScanner](https://cspscanner.com/)
+* [Postcards from the post-XSS world](https://lcamtuf.coredump.cx/postxss/)
+* [Content-Security-Policy-CSP-Bypass-Techniques by bhaveshk90](https://github.com/bhaveshk90/Content-Security-Policy-CSP-Bypass-Techniques)
+* [Video: A successful mess between hardening and mitigation - Spagnuolo/Weichselbaum](https://www.youtube.com/watch?v=_L06HetskC4&t=902s)
+* [Video: Let's break stuff Matt Brunt](https://www.youtube.com/watch?v=mr230uotw-Y)
+* [Video Troy Hunt: Understanding CSP](https://www.troyhunt.com/understanding-csp-the-video-tutorial-edition/)
 
-[NWebsec](https://docs.nwebsec.com/en/latest/nwebsec/Configuring-csp.html)
-[Andrew Lock library](https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders)
-[Joonas W library](https://joonasw.net/view/csp-in-aspnet-core)
+* [NWebsec](https://docs.nwebsec.com/en/latest/nwebsec/Configuring-csp.html)
+* [Andrew Lock library](https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders)
+* [Joonas W library](https://joonasw.net/view/csp-in-aspnet-core)
