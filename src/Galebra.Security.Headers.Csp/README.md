@@ -130,7 +130,13 @@ Add nonces to the body by importing the TagHelpers
 @addTagHelper *, Galebra.Security.Headers.Csp
 ````
 
-And add to styles, scripts or link tags the helper `nonce-add=true`. For example, for `PolicyGroup3`, that restricts you to use only nonced styles,
+And add to styles, scripts or link tags the TagHelper:
+
+````cshtml
+nonce-add=true
+````
+
+For example, for `PolicyGroup3`, that restricts you to use only nonced styles,
 you would allow loading bootstrap like so:
 
 ````cshtml
