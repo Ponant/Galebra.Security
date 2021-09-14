@@ -189,7 +189,7 @@ Content-Security-Policy: default-src;script-src 'self'
 ````
 
 In theory, you can have [multiple CSP policies](https://w3c.github.io/webappsec-csp/#multiple-policies) **for the same header name**
-in the same response header; however, we believe **this should not be recommended** because it makes your policy more convoluted
+in the same response; however, we believe **this should not be recommended** because it makes your policy more convoluted
 and rather highlights a design flaw, notwithstanding that you send more bytes to the user's browser. Consequently, the library
 outputs only one CSP header for a given header name.
 In practice, we assign the value for the header key (name) rather than adding a new item in the dictionary.
@@ -204,7 +204,7 @@ Content-Security-Policy: Policy2
 
 ## The CspPolicyGroup class
 
-However, you can have both a CSP and a CSP-Report-Only policy, and usually **this is recommended**.
+However, you can have both a CSP and CSP-Report-Only policy, and usually **this is recommended**.
 Some libraries do not support this configuration. This library does. For example **you can do** something like this:
 
 ````
