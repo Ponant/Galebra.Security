@@ -25,10 +25,8 @@ public sealed class EnableCspAttribute : ResultFilterAttribute, IEnableCspFilter
 
     public override void OnResultExecuting(ResultExecutingContext context)
     {
-        /// Override filter with an if statment, however this is not proper, especially that
+        /// One could override filter with an if statment, however this is not proper, especially that
         /// filter execute differently if they are requested globally or per folder.
-        /// A better way is to provide the <see cref="EnableCspPageFilter"/>
-        /// to configure with RazorPAges in startup
         //if (context.HttpContext.Items[CspConstants.EnableCspResultFilterAttributeKey] is not null)
         context.HttpContext.Items[CspConstants.EnableCspResultFilterAttributeKey] = PolicyGroupName;
         base.OnResultExecuting(context);
