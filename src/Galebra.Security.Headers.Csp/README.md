@@ -20,7 +20,7 @@ built as such and not otherwise.
 
 All terminology is explained in the next sections. You may check the MVC and Razor Pages sample and navigate through the pages.
 
-The library does not use `EndPoint` routing, so you can invoke the `UseContentSecurityPolicy`
+The library does not use `Endpoint` routing, so you can invoke the `UseContentSecurityPolicy`
 middleware before or after `UseRouting`.
 
 ````csharp
