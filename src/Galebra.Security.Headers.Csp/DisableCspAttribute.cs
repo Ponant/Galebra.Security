@@ -18,7 +18,6 @@ public sealed class DisableCspAttribute : ResultFilterAttribute, IDisableCspFilt
 
     public override void OnResultExecuting(ResultExecutingContext context)
     {
-        ///We can set the value to null for now as it is not needed
         context.HttpContext.Items[CspConstants.DisableCspResultFilterAttributeKey] = EnforceMode;
         base.OnResultExecuting(context);
     }

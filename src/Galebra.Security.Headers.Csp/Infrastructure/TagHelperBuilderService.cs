@@ -6,7 +6,7 @@ namespace Galebra.Security.Headers.Csp.Infrastructure
     internal static class TagHelperBuilderService
     {
         /// <summary>
-        /// The flow logic herin should match the one in the <see cref="CspMiddleware"/> object
+        /// The flow logic herein should match the one in the <see cref="CspMiddleware"/> object
         /// </summary>
         internal static string ApplyOutput(ICspOptions cspOptions, KeyValuePair<string, CspPolicyGroup> defaultPolicyGroup,
             ViewContext viewContext, TagHelperOutput output, Action<string, TagHelperOutput> setupAction)
