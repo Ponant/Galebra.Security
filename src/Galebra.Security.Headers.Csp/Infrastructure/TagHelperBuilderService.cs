@@ -25,6 +25,7 @@ namespace Galebra.Security.Headers.Csp.Infrastructure
             else
             {
                 //enforceMode is null, which should never happen since we always set it in attribute or filter
+                //so let the pipeline continue
             }
 
             //For enable attribute or filter

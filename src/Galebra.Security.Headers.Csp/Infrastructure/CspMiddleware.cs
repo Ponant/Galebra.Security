@@ -47,6 +47,7 @@ public sealed class CspMiddleware
             {
                 //enforceMode is null, which should never happen
                 //since we always set it in attribute or filter
+                //so let the pipeline continue
             }
 
             /// EnableCsp ResultFilter case

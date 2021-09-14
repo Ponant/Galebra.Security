@@ -18,6 +18,7 @@ public sealed class DisableCspAttribute : ResultFilterAttribute, IDisableCspFilt
 
     public override void OnResultExecuting(ResultExecutingContext context)
     {
+        //Set the EnforceMode as an Item object to be retrieved in the middleware
         context.HttpContext.Items[CspConstants.DisableCspResultFilterAttributeKey] = EnforceMode;
         base.OnResultExecuting(context);
     }
