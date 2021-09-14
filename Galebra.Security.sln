@@ -4,9 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{E5D52CB2-CDF3-4093-989A-7DD5275AB41E}"
-	ProjectSection(SolutionItems) = preProject
-		samples\_static\displaypolicygroups.png = samples\_static\displaypolicygroups.png
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galebra.Security.Headers.Csp", "src\Galebra.Security.Headers.Csp\Galebra.Security.Headers.Csp.csproj", "{F1C542D6-F830-4CEE-89B6-27C9FE683578}"
 EndProject
