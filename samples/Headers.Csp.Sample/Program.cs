@@ -49,7 +49,7 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AddPageApplicationModelConvention("/Error",
         model => model.Filters.Add(new EnableCspPageFilter { PolicyGroupName = "PolicyGroup3" }));
 
-    //Could be used, e.g. in ASP.NET Identity
+    //Could be used in, e.g., ASP.NET Identity
     //options.Conventions.AddAreaFolderApplicationModelConvention("Identity", "/Account",
     //    model => model.Filters.Add(new EnableCspPageFilter { PolicyGroupName = "PolicyGroup1" }));
 
