@@ -42,6 +42,10 @@ builder.Services.AddRazorPages(options =>
     model => model.Filters.Add(new EnableCspPageFilter { PolicyGroupName = "PolicyGroup1" }));
     //model => model.Filters.Add(new DisableCspPageFilter { EnforceMode = false }));
 
+    options.Conventions.AddFolderApplicationModelConvention(
+     "/Movies/Adventure",
+ model => model.Filters.Add(new EnableCspPageFilter { PolicyGroupName = "PolicyGroup3" }));
+
     options.Conventions.AddPageApplicationModelConvention("/Error",
         model=>model.Filters.Add(new EnableCspPageFilter { PolicyGroupName="PolicyGroup3"}));
 

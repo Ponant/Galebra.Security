@@ -344,6 +344,14 @@ builder.Services.AddRazorPages(options =>
 });
 ````
 
+And carry on with another policy group for subfolders
+
+````csharp
+    options.Conventions.AddFolderApplicationModelConvention(
+     "/Movies/Adventure",
+ model => model.Filters.Add(new EnableCspPageFilter { PolicyGroupName = "PolicyGroup3" }));
+````
+
 You can also disable CSP in a folder:
 
 ````chsarp
