@@ -66,7 +66,7 @@ internal static class CspExtensions
         //Trim and remove items in Nonceable if they are empty
         kvpPolicyGroup.Value.Sanitize();
 
-        //--Now all Nonceable are either empty (no items) or have non-empty items
+        //Now all Nonceable are either empty (no items) or have non-empty items
         //Check for simulataneous emptiness
         if (kvpPolicyGroup.Value.IsEmpty())
         {
