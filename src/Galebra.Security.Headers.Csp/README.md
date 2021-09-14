@@ -336,20 +336,17 @@ More interestingly, you can apply a given policy to an entire Folder in Razor Pa
 
 ````csharp
 //Apply on specific folders
-builder.Services.AddRazorPages(options =>
-{
-    options.Conventions.AddFolderApplicationModelConvention(
-        "/Movies",
-                model => model.Filters.Add(new EnableCspPageFilter { PolicyGroupName = "PolicyGroup1" }));
-});
+options.Conventions.AddFolderApplicationModelConvention(
+    "/Movies",
+    model => model.Filters.Add(new EnableCspPageFilter { PolicyGroupName = "PolicyGroup1" }));
 ````
 
 And carry on with another policy group for subfolders
 
 ````csharp
-    options.Conventions.AddFolderApplicationModelConvention(
-     "/Movies/Adventure",
- model => model.Filters.Add(new EnableCspPageFilter { PolicyGroupName = "PolicyGroup3" }));
+options.Conventions.AddFolderApplicationModelConvention(
+    "/Movies/Adventure",
+    model => model.Filters.Add(new EnableCspPageFilter { PolicyGroupName = "PolicyGroup3" }));
 ````
 
 You can also disable CSP in a folder:
@@ -363,11 +360,12 @@ Where `EnforceMode` is `true` by default and is discussed below.
 In areas, you could do something like this:
 
 ````csharp
-    options.Conventions.AddAreaFolderApplicationModelConvention("Identity", "/Account",
-     model => model.Filters.Add(new EnableCspPageFilter { PolicyGroupName = "PolicyGroup1" }));
+//You need ASP.NET Identity for this to work
+options.Conventions.AddAreaFolderApplicationModelConvention("Identity", "/Account",
+    model => model.Filters.Add(new EnableCspPageFilter { PolicyGroupName = "PolicyGroup1" }));
 
-    options.Conventions.AddAreaPageApplicationModelConvention("Identity", "/Account/Manage/ChangePassword",
-        model => model.Filters.Add(new EnableCspPageFilter { PolicyGroupName = "PolicyGroup3" }));
+options.Conventions.AddAreaPageApplicationModelConvention("Identity", "/Account/Manage/ChangePassword",
+    model => model.Filters.Add(new EnableCspPageFilter { PolicyGroupName = "PolicyGroup3" }));
 ````
 
 In a Razor Page or Action or Controller, you can override the default `CspPolicyGroup` with an attribute:
@@ -426,7 +424,7 @@ builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AddFolderApplicationModelConvention(
         "/Movies",
-    model => model.Filters.Add(new DisableCspPageFilter { EnforceMode = false }));
+        model => model.Filters.Add(new DisableCspPageFilter { EnforceMode = false }));
 });
 ````
 Because we have set `EnforceMode = false`, we can set CSP on a page inside the *Movies* folder with an attribute,

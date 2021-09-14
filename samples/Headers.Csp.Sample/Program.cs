@@ -39,19 +39,19 @@ builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AddFolderApplicationModelConvention(
         "/Movies",
-    model => model.Filters.Add(new EnableCspPageFilter { PolicyGroupName = "PolicyGroup1" }));
+        model => model.Filters.Add(new EnableCspPageFilter { PolicyGroupName = "PolicyGroup1" }));
     //model => model.Filters.Add(new DisableCspPageFilter { EnforceMode = false }));
 
     options.Conventions.AddFolderApplicationModelConvention(
      "/Movies/Adventure",
- model => model.Filters.Add(new EnableCspPageFilter { PolicyGroupName = "PolicyGroup3" }));
+     model => model.Filters.Add(new EnableCspPageFilter { PolicyGroupName = "PolicyGroup3" }));
 
     options.Conventions.AddPageApplicationModelConvention("/Error",
-        model=>model.Filters.Add(new EnableCspPageFilter { PolicyGroupName="PolicyGroup3"}));
+        model => model.Filters.Add(new EnableCspPageFilter { PolicyGroupName = "PolicyGroup3" }));
 
     //You need ASP.NET Identity for this to work
     //options.Conventions.AddAreaFolderApplicationModelConvention("Identity", "/Account",
-    // model => model.Filters.Add(new EnableCspPageFilter { PolicyGroupName = "PolicyGroup1" }));
+    //    model => model.Filters.Add(new EnableCspPageFilter { PolicyGroupName = "PolicyGroup1" }));
 
     //options.Conventions.AddAreaPageApplicationModelConvention("Identity", "/Account/Manage/ChangePassword",
     //    model => model.Filters.Add(new EnableCspPageFilter { PolicyGroupName = "PolicyGroup3" }));
