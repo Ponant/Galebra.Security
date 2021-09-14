@@ -144,7 +144,7 @@ you would allow loading bootstrap like so:
 ````
 
 
-![Display CSP policy groups](../samples/_static/displaypolicygroups.png)
+![Display CSP policy groups](../../samples/_static/displaypolicygroups.png)
 
 ## Design Philosophy and introduction
 

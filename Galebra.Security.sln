@@ -4,12 +4,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{E5D52CB2-CDF3-4093-989A-7DD5275AB41E}"
+	ProjectSection(SolutionItems) = preProject
+		samples\_static\displaypolicygroups.png = samples\_static\displaypolicygroups.png
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Galebra.Security.Headers.Csp", "src\Galebra.Security.Headers.Csp\Galebra.Security.Headers.Csp.csproj", "{F1C542D6-F830-4CEE-89B6-27C9FE683578}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1A24D5C5-AD3F-47BC-98A0-641BAD482D07}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Headers.Csp.Sample", "samples\Headers.Csp.Sample\Headers.Csp.Sample.csproj", "{983D25A3-7271-4A87-87F9-2B0188F80E77}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_static", "_static", "{138EDB4F-F7E5-4EE6-97AB-2E4CE3AF4DF8}"
+	ProjectSection(SolutionItems) = preProject
+		samples\_static\displaypolicygroups.png = samples\_static\displaypolicygroups.png
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +40,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{F1C542D6-F830-4CEE-89B6-27C9FE683578} = {1A24D5C5-AD3F-47BC-98A0-641BAD482D07}
 		{983D25A3-7271-4A87-87F9-2B0188F80E77} = {E5D52CB2-CDF3-4093-989A-7DD5275AB41E}
+		{138EDB4F-F7E5-4EE6-97AB-2E4CE3AF4DF8} = {E5D52CB2-CDF3-4093-989A-7DD5275AB41E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4629BC68-E440-4110-920A-9B7AFF8DF9CA}
