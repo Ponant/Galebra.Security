@@ -143,6 +143,7 @@ you would allow loading bootstrap like so:
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" nonce-add=true/>
 ````
 
+A sample project is provided and exposes the usage of the library.
 
 ![Display CSP policy groups](../../samples/_static/displaypolicygroups.png)
 
