@@ -360,7 +360,7 @@ Where `EnforceMode` is `true` by default and is discussed below.
 In areas, you could do something like this:
 
 ````csharp
-//Could be used, e.g. in ASP.NET Identity
+//Could be used in, e.g., ASP.NET Identity
 options.Conventions.AddAreaFolderApplicationModelConvention("Identity", "/Account",
     model => model.Filters.Add(new EnableCspPageFilter { PolicyGroupName = "PolicyGroup1" }));
 
