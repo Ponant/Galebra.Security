@@ -28,6 +28,7 @@ public sealed class EnableCspAttribute : ResultFilterAttribute, IEnableCspFilter
         /// One could override filter with an if statment, however this is not proper, especially that
         /// filter execute differently if they are requested globally or per folder.
         //if (context.HttpContext.Items[CspConstants.EnableCspResultFilterAttributeKey] is not null)
+        //Set the PolicyGroupName as an Item object to be retrieved in the middleware
         context.HttpContext.Items[CspConstants.EnableCspResultFilterAttributeKey] = PolicyGroupName;
         base.OnResultExecuting(context);
     }
