@@ -61,12 +61,7 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-}
-else
+if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
