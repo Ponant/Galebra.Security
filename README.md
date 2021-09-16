@@ -1,5 +1,5 @@
 # Galebra.Security
 
-Documentation:
+## Documentation:
 
 * [Content Security Policy](/src/Galebra.Security.Headers.Csp)
