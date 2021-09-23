@@ -525,6 +525,7 @@ will be displayed instead.
 * [Postcards from the post-XSS world](https://lcamtuf.coredump.cx/postxss/)
 * [Content-Security-Policy-CSP-Bypass-Techniques by bhaveshk90](https://github.com/bhaveshk90/Content-Security-Policy-CSP-Bypass-Techniques)
 * [Video: A successful mess between hardening and mitigation - Spagnuolo/Weichselbaum](https://www.youtube.com/watch?v=_L06HetskC4&t=902s)
+* [AppSecEU 16 - Michele Spagnuolo, Lukas Weichselbaum - Making CSP great again](https://www.youtube.com/watch?v=uf12a-0AluI)
 * [Video: Let's break stuff Matt Brunt](https://www.youtube.com/watch?v=mr230uotw-Y)
 * [Video Troy Hunt: Understanding CSP](https://www.troyhunt.com/understanding-csp-the-video-tutorial-edition/)
 
