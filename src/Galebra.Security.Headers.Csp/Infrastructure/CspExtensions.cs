@@ -175,7 +175,7 @@ internal static class CspExtensions
         {
             throw new ArgumentNullException(nameof(cspPolicy));
         }
-        if (cspPolicy.RequiresNonce)//Don't add if nonce is not required, othwerwise we fill with a whitespace
+        if (cspPolicy.RequiresNonce)//Don't add if nonce is not required, otherwise we fill with a whitespace
         {
             cspPolicy.Nonceable = cspPolicy.Nonceable.ToList().ConvertAll(s => string.Concat(s, " "));
         }
