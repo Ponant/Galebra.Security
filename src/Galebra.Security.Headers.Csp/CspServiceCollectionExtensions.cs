@@ -30,7 +30,6 @@ public static class CspServiceCollectionExtensions
         return services.AddContentSecurityPolicy(c => configurationSection.Bind(c));
     }
 
-
     /// <summary>
     /// Adds the content security policy singleton service
     /// </summary>
