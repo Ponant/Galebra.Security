@@ -64,6 +64,7 @@ public static class CspServiceCollectionExtensions
 
         //This is better than (new CcpNonceService()) as the latter is not disposed.
         //The func allows for automatic disposal. See DI guidlines disposing services
+        //https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#service-registration-methods
         //TryAdd does not have this overload
         //services.AddScoped<ICspNonce, CspNonce>(s => new CspNonce(nonceableGroups));
         services.AddScoped<ICspNonce>(s => new CspNonce(nonceableGroups));
