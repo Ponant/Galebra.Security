@@ -528,6 +528,8 @@ will be displayed instead.
 * [AppSecEU 16 - Michele Spagnuolo, Lukas Weichselbaum - Making CSP great again](https://www.youtube.com/watch?v=uf12a-0AluI)
 * [Video: Let's break stuff Matt Brunt](https://www.youtube.com/watch?v=mr230uotw-Y)
 * [Video Troy Hunt: Understanding CSP](https://www.troyhunt.com/understanding-csp-the-video-tutorial-edition/)
+* [When is content security policy (CSP) not appropriate?](https://security.stackexchange.com/questions/249237/when-is-content-security-policy-csp-not-appropriate)
+* [On what types of web content is a Content-Security-Policy useful?](https://security.stackexchange.com/questions/249907/on-what-types-of-web-content-is-a-content-security-policy-useful)
 
 * [NWebsec](https://docs.nwebsec.com/en/latest/nwebsec/Configuring-csp.html)
 * [Andrew Lock library](https://github.com/andrewlock/NetEscapades.AspNetCore.SecurityHeaders)
