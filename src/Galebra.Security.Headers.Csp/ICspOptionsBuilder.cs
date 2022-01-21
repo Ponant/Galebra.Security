@@ -1,4 +1,6 @@
-﻿namespace Galebra.Security.Headers.Csp.Infrastructure;
+﻿using Galebra.Security.Headers.Csp.Infrastructure;
+
+namespace Galebra.Security.Headers.Csp;
 
 public interface ICspOptionsBuilder
 {
@@ -17,5 +19,4 @@ public interface ICspOptionsBuilder
     /// folders, actions or controllers.
     /// </summary>
     bool IsDisabled { set; }
-
 }
